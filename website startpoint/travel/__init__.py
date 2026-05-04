@@ -1,9 +1,9 @@
 from flask import Flask
-from flask_bootstrap import Bootstrap5
+from flask_bootstrap5 import Bootstrap
 
 def create_app():
     app = Flask(__name__)
-    Bootstrap5(app)
+    Bootstrap(app)
     app.secret_key = 'secretkey'
 
     #add Blueprints
