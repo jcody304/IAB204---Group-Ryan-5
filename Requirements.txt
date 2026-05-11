@@ -1,0 +1,28 @@
+# Dependencies:
+# Flask = 
+pip install Flask
+# Flask-Login = 
+pip install Flask-Login
+# Flask-WTF = 
+pip install Flask-WTF
+# Flask-Bootstrap5 = 
+pip install Flask_Bootstrap5
+# Flask-SQLAlchemny = 
+pip install Flask-SQLAlchemy
+
+""" Instructions for SQLAlchemy Database Creation: 
+	Open terminal and input - cd '(FILEPATH PLACEHOLDER)\IAB204---Group-Ryan-5\website startpoint'
+	Run interpreter in terminal - python3
+	from travel import create_app, db
+	app=create_app()
+	ctx=app.app_context()
+    ctx_push()
+    db.create_all() 
+
+This is recommened to be done on all ends. It is not recommened to share the actual events.db on github. Create your own locally and it will
+automatically update from models.py.
+To make github ignore the db. Create a file in the root on VSC, called '.gitignore'. The add the following two lines
+*.db
+instance/
+Save the file and commit it before commiting the db file and intance. This will prevent it from happening otherwise you will have to manually remove it
+"""
