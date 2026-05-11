@@ -37,8 +37,8 @@ def create_app():
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
     # Unhash the below lines one time to create DB if needed, then rehash them
-    #with app.app_context():
-        #db.create_all()
+    with app.app_context():
+        db.create_all()
 
     # User loader function requred by Flask-Login. Tells Flask-Login how to reload a user from a stored session ID
     @login_manager.user_loader
