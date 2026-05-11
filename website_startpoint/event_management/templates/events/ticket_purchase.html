@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+{% block content %}
+
+<div class="justify-content-center text-center mt-4 text-white">
+    <h1>Saint Tropez Vol 7</h1>
+
+    <img src="https://www.eventbrite.com.au/e/_next/image?url=https%3A%2F%2Fimg.evbuc.com%2Fhttps%253A%252F%252Fcdn.evbuc.com%252Fimages%252F1177143742%252F262184060710%252F1%252Foriginal.20260210-060019%3Fw%3D600%26auto%3Dformat%252Ccompress%26q%3D75%26sharp%3D10%26rect%3D0%252C0%252C1024%252C512%26s%3Dd9aa8ffbb371851af787972ab11fc1b1&w=1880&q=75"
+         class="img-fluid mb-4" alt="Event Image">
+
+    <p><strong>Date:</strong> 25th April 2026</p>
+    <p><strong>Time:</strong> 2:00 PM – 8:00 AM</p>
+    <p><strong>Location:</strong> Lina Rooftop, South Bank, Brisbane</p>
+</div>
+
+<div class="d-flex justify-content-center align-items-center min-vh-100 text-white">
+    {{ render_form(form) }}
+</div>
+
+{% endblock %}
