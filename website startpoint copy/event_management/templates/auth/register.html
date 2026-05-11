@@ -6,7 +6,9 @@
         <div class="col-md-12">
             <h1>Register</h1>
             <p>Please enter your details to create an account.</p>
-            {{ render_form(form, button_map={'submit': 'btn btn-primary', 'back': 'btn btn-danger'}) }}
+            {{ render_form(form, button_map={'submit': 'btn btn-primary'}) }}
+
+            <a href="{{ request.referrer or url_for('mainbp.home') }}" class="btn btn-danger">Back</a>
         </div>
     </div>
 </div>

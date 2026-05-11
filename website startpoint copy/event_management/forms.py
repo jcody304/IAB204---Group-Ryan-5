@@ -20,7 +20,7 @@ class EventForm(FlaskForm):
     state_territory = SelectField('State/Territory',
         choices=[('', 'Choose...'),('ACT', 'ACT'),('NSW', 'NSW'),('NT', 'NT'),('QLD', 'QLD'),('TAS', 'TAS'),('VIC', 'VIC')],
         validators=[InputRequired()])
-    postcode = IntegerField('Zip', validators=[InputRequired(), NumberRange(min=1000, max=9999, message="Postcode must be a 4‑digit number")])
+    postcode = IntegerField('Zip', validators=[InputRequired(), NumberRange(min=1000, max=9999, message="Postcode must be a 4 digit number")])
     category = SelectField('Category',
         choices=[(' ',' Select Category'),('music', 'Music'),('sports', 'Sports'),('theatre', 'Theatre'),('community', 'Community'),('education', 'Education')],
         validators=[InputRequired()])
@@ -37,7 +37,7 @@ class EventForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired()])
     password = PasswordField('Password', validators=[InputRequired()])
-    back = SubmitField('Back')
+    # back = SubmitField('Back')
     submit = SubmitField('Login')
 
 # Form for User Registration
@@ -50,7 +50,7 @@ class RegisterForm(FlaskForm):
         choices=[('', 'Choose...'),('ACT', 'ACT'),('NSW', 'NSW'),('NT', 'NT'),('QLD', 'QLD'),('TAS', 'TAS'),('VIC', 'VIC')],
         validators=[InputRequired()])
     postcode = IntegerField('Zip', validators=[InputRequired(), NumberRange(min=1000, max=9999, message="Postcode must be a 4‑digit number")])
-    back = SubmitField('Back')
+    # back = SubmitField('Back')
     submit = SubmitField('Register')
 
 # Form for Submitting Comments
