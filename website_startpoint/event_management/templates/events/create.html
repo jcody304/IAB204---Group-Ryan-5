@@ -1,0 +1,71 @@
+Use this version:
+
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+{% block content %}
+
+<div class="container text-white">
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-8">
+            <div class="text-center mb-4">
+                <img src="https://boomset.com/wp-content/uploads/2025/07/largest-concerts-ever.png"
+                     class="img-fluid rounded w-50"
+                     alt="Event Image">
+            </div>
+            <h1>
+                {% if edit_mode %}
+                    Update Event
+                {% else %}
+                    Create Event
+                {% endif %}
+            </h1>
+            <p>
+                {% if edit_mode %}
+                    Update the details of your event.
+                {% else %}
+                    Please fill out the form to create a new event.
+                {% endif %}
+            </p>
+
+            <div class="card text-dark mb-4">
+                <div class="card-header">
+                    <h2 class="h5 mb-0">Acknowledgement of Country Guidance</h2>
+                </div>
+                <div class="card-body">
+                    <p>
+                        An Acknowledgement of Country is a respectful statement that recognises the
+                        Traditional Custodians or Traditional Owners of the land where an event takes place.
+                    </p>
+                    <p>
+                        A Welcome to Country is different. A Welcome to Country is delivered by a Traditional
+                        Owner or Custodian of that specific Country. An Acknowledgement of Country can be
+                        given by any person when done respectfully.
+                    </p>
+                    <h3 class="h6">Helpful research links</h3>
+                    <ul>
+                        <li><a href="https://aiatsis.gov.au/explore/map-indigenous-australia" target="_blank">AIATSIS Map of Indigenous Australia</a></li>
+                        <li><a href="https://www.reconciliation.org.au/" target="_blank">Reconciliation Australia guidance</a></li>
+                        <li><a href="https://www.creativespirits.info/aboriginalculture/selfdetermination/aboriginal-land-councils" target="_blank">Local Aboriginal Land Councils</a></li>
+                        <li><a href="https://www.niaa.gov.au/" target="_blank">State or Territory Aboriginal affairs website</a></li>
+                        <li><a href="https://www.reconciliation.org.au/reconciliation/acknowledgement-of-country-and-welcome-to-country/" target="_blank">Local council Acknowledgement guidance</a></li>
+                    </ul>
+                    <h3 class="h6">Common mistakes to avoid</h3>
+                    <ul>
+                        <li>Do not guess the Traditional Custodians without checking reliable sources.</li>
+                        <li>Do not call it a Welcome to Country unless it is delivered by an appropriate Traditional Owner.</li>
+                        <li>Do not use a generic statement if your event needs a more place-specific acknowledgement.</li>
+                        <li>Do not make the statement tokenistic. It should show genuine respect and awareness.</li>
+                        <li>Be careful where Country, language groups, boundaries, or custodianship may be contested.</li>
+                    </ul>
+                    <div class="alert alert-info mb-0">
+                        If you select <strong>Enhanced</strong>, complete the Traditional Custodians field,
+                        write your own statement, and tick the checklist confirmations.
+                    </div>
+                </div>
+            </div>
+            {{ render_form(form) }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

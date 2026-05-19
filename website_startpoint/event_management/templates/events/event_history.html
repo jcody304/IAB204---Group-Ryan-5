@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4 text-white">
+    <h3 class="text-center">My Event History</h3>
+    <div class="row justify-content-center mt-4 g-4">
+        {% for booking in bookings %}
+        <div class="col-md-2 mb-4">
+            <a href="{{ url_for('events.show', id=booking.event.id) }}"
+               class="card bg-dark text-white text-decoration-none h-100">
+                {% if booking.event.images %}
+                    <img src="{{ url_for('static', filename=booking.event.images[0].filename) }}"
+                         class="card-img-top"
+                         alt="{{ booking.event.name }}">
+                {% endif %}
+                <div class="card-body text-center">
+                    <h6 class="card-title">{{ booking.event.name }}</h6>
+                    <p class="card-text mb-1">Booking ID: {{ booking.id }}</p>
+                    <p class="card-text mb-1">
+                        Booking Date: {{ booking.created_at.strftime('%d/%m/%Y') }}
+                    </p>
+                    <p class="card-text">
+                        Tickets: {{ booking.quantity }}
+                    </p>
+                </div>
+            </a>
+        </div>
+        {% else %}
+        <div class="col-12 text-center">
+            <p>You have not booked any events yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
