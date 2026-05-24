@@ -23,7 +23,7 @@
 
 <body>
     <div class="page-wrapper">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <nav class="navbar navbar-expand-lg sticky-top">
             <a class="navbar-brand ms-3" href="/">Eventaman</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -39,9 +39,8 @@
                             My Events
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownEvents">
-                            <a class="dropdown-item" href="/events/create">Create Event +</a>
-                            <a class="dropdown-item" href="">Update Event</a>
-                            <a class="dropdown-item" href="/events/history">Event History</a>
+                            <a class="dropdown-item" href="{{ url_for('events.create') }}">Create Event +</a>
+                            <a class="dropdown-item" href="{{ url_for('events.history') }}">Event History</a>
                         </div>
                     </li>
 
@@ -51,12 +50,22 @@
                             Categories
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item dropdown-toggle" href="#">Music</a>
-                            <a class="dropdown-item dropdown-toggle" href="#">Sports</a>
-                            <a class="dropdown-item dropdown-toggle" href="#">Theatre</a>
-                            <a class="dropdown-item dropdown-toggle" href="#">Comedy</a>
+                            <a class="dropdown-item" href="{{ url_for('events.category', category='music') }}">Music</a>
+                            <a class="dropdown-item" href="{{ url_for('events.category', category='sports') }}">Sports</a>
+                            <a class="dropdown-item" href="{{ url_for('events.category', category='theatre') }}">Theatre</a>
+                            <a class="dropdown-item" href="{{ url_for('events.category', category='comedy') }}">Comedy</a>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('events.acknowledgement') }}">
+                            Acknowledgement
+                        </a>
+                    </li>
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('auth.account') }}">My Account</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <div class="d-flex align-items-center gap-2 ms-auto">
                     <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
@@ -73,6 +82,17 @@
         </nav>
 
         <main>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="container mt-3">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                            {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
             {% block content %}
 
             {% endblock %}

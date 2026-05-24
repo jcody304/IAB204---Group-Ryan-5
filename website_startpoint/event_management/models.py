@@ -1,5 +1,3 @@
-# Defines the data models used in the application. Represents the core objects of the system
-
 # Imports datetime for timestamps
 from datetime import datetime
 # Imports DB from __initi__.py
@@ -17,6 +15,8 @@ class User(UserMixin, db.Model): # Inherits UserMixin to work with Flask-Login a
     role = db.Column(db.String(50), nullable=False, default='customer') # User role and sets it to default
     password_hash = db.Column(db.String(255), nullable=False) # Hashed Password
     comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
+    bookings = db.relationship('Booking', back_populates='user', cascade='all, delete-orphan')
+    events = db.relationship('Event', backref='vendor', lazy=True)
 
     # Sets the user's password by hashing it
     def set_password(self, password):
@@ -30,15 +30,34 @@ class User(UserMixin, db.Model): # Inherits UserMixin to work with Flask-Login a
 class Event(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.Integer, primary_key=True)
+    vendor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
+    organisation_name = db.Column(db.String(100), nullable=True)
     description = db.Column(db.Text, nullable=False)
-    location = db.Column(db.String(100), nullable=False)
-    currency = db.Column(db.String(20))
+    category = db.Column(db.String(50), nullable=False)
+    price = db.Column(db.String(20))
     date = db.Column(db.DateTime, nullable=False)
     status = db.Column(db.String(50), default='Open')
     price = db.Column(db.Float)
     images = db.relationship('EventImage', back_populates='event', cascade='all, delete-orphan')
     comments = db.relationship('Comment', back_populates='event', cascade='all, delete-orphan')
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.id'), nullable=False)
+    location = db.relationship('Location', back_populates='events')
+    tickets_available = db.Column(db.Integer, nullable=False)
+    tickets_sold = db.Column(db.Integer, nullable=False, default=0)
+    bookings = db.relationship('Booking', back_populates='event', cascade='all, delete-orphan')
+    
+    # Acknowledgement of Country and Custodians
+    acknowledgement_type = db.Column(db.String(20), nullable=False, default='none')
+    acknowledgement_traditional_custodians = db.Column(db.String(200), nullable=True)
+    acknowledgement_statement = db.Column(db.Text, nullable=True)
+    acknowledgement_researched = db.Column(db.Boolean, default=False)
+    acknowledgement_not_welcome = db.Column(db.Boolean, default=False)
+    acknowledgement_respectful = db.Column(db.Boolean, default=False)
+    
+    @property
+    def tickets_remaining(self):
+        return self.tickets_available - self.tickets_sold
 
 # Comment class defined representing a user comment on a destination
 class Comment(db.Model):
@@ -58,3 +77,31 @@ class EventImage(db.Model):
     filename = db.Column(db.String(255), nullable=False)
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
     event = db.relationship('Event', back_populates='images')
+
+# Locations class defined representing the locations of events
+class Location(db.Model):
+    __tablename__ = 'locations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    address = db.Column(db.String(150), nullable=False)
+    state_territory = db.Column(db.String(10), nullable=False)
+    postcode = db.Column(db.Integer, nullable=False)
+
+    events = db.relationship('Event', back_populates='location')
+    
+# Bookings class defined representing previous bookings
+class Booking(db.Model):
+    __tablename__ = 'bookings'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    quantity = db.Column(db.Integer, nullable=False)
+    total_price = db.Column(db.Integer, nullable=False)
+
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
+
+    user = db.relationship('User', back_populates='bookings')
+    event = db.relationship('Event', back_populates='bookings')

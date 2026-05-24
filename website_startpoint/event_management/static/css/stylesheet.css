@@ -11,6 +11,7 @@ html, body {
 
 main {
     flex: 1;
+    padding: 20px 0;
 }
 
 .footer {
@@ -21,13 +22,85 @@ body {
     background-color: black;
     overflow-x: hidden;
 }
+
+/* Navbar Styles*/
+.navbar {
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #111111 !important;
+}
+
+.navbar-brand:hover {
+    color: #dc3545 !important;
+}
+
+.nav-link {
+    color: rgba(0,0,0,0.85) !important;
+    font-weight: 500;
+    margin-left: 10px;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: #dc3545 !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background: #dc3545;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.dropdown-menu {
+    background-color: white;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.dropdown-item {
+    color: #111111;
+}
+
+.dropdown-item:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.navbar-toggler {
+    border-color: rgba(0,0,0,0.15);
+}
+
 /* Card styles */
 .card {
+    height: 240px;
+}
+
+/* Landing page cards with hover animation */
+.index-card {
     height: 240px;
     transition: transform 0.3s ease;
 }
 
-.card:hover {
+.index-card:hover {
     transform: scale(1.05);
 }
 
@@ -69,4 +142,50 @@ body {
 .carousel-item img {
     max-height: 250px;
 }
+}
+
+/* Achnowledgement Styles */
+.acknowledgement-page {
+    background-color: black;
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+}
+
+.acknowledgement-page h1,
+.acknowledgement-page h2,
+.acknowledgement-page h3,
+.acknowledgement-page p,
+.acknowledgement-page li {
+    color: white;
+}
+
+.acknowledgement-card {
+    background-color: #111111;
+    border: 1px solid #333;
+    color: white;
+}
+
+.acknowledgement-card h2,
+.acknowledgement-card p,
+.acknowledgement-card li {
+    color: white;
+}
+
+.acknowledgement-card a {
+    color: #4ea3ff;
+}
+
+.acknowledgement-card a:hover {
+    color: #7bbcff;
+}
+
+/* Content container spacing */
+.city-heading {
+    padding: 20px;
+}
+
+/* Improve form containers */
+.container {
+    padding-bottom: 30px;
 }
