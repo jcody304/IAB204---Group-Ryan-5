@@ -1,5 +1,3 @@
-# Defines all web forms using Flask-WTF. Froms are used to collect user input from the frontend.
-
 # Import Flaskform, which is the case class for all forms in Flask-WTF (pip install Flask-WTF)
 from flask_wtf import FlaskForm
 # Import different types of file fields and rules
@@ -33,7 +31,6 @@ class EventForm(FlaskForm):
             validators=[InputRequired(), NumberRange(min=0, message="Price must be a positive number")])
     tickets_available = IntegerField('Tickets Available', 
             validators=[InputRequired(), NumberRange(min=0, message="Tickets available must be a positive number")])
-    submit = SubmitField('Publish')
     # Ackowledgement of Country and Custodians
     acknowledgement_type = SelectField('Acknowledgement of Country', choices=[('none', 'No Acknowledgement of Country'), ('generic', 'Acknowledgement of Country: generic'), ('enhanced', 'Acknowledgement of Country: enhanced')], validators=[InputRequired()])
     acknowledgement_traditional_custodians = StringField('Traditional Custodians / Traditional Owners', validators=[Optional()])
@@ -68,6 +65,7 @@ class EventForm(FlaskForm):
                 valid = False
             return valid
         return True
+    submit = SubmitField('Publish')
 
 # Form for User Login
 class LoginForm(FlaskForm):

@@ -1,5 +1,3 @@
-# Defines the data models used in the application. Represents the core objects of the system
-
 # Imports datetime for timestamps
 from datetime import datetime
 # Imports DB from __initi__.py

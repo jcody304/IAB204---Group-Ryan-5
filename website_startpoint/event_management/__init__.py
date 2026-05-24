@@ -1,5 +1,3 @@
-# Creates and configures the Flask Application. THE ORDER OF THE FOLLOWING IMPORTS IS IMPORTANT, DO IT EXACTLY THE SAME!!!
-
 # Import the main Flask class
 from flask import Flask
 # Import bootstrap support for Flask templates
@@ -33,7 +31,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///' + os.path.join(app.instance_path, 'events.db') # DB configuration for the app
     db.init_app(app) # Initialize the database with Flask app
 
-    # Location to store images. !!!UNSURE IF IT WORKS!!!!
+    # Location to store images uploaded by users
     UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'img')
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 

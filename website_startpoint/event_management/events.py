@@ -1,5 +1,3 @@
-# Defines routes related to destinations using Flask Blueprint
-
 # Imports Flask Utilities: Blueprint (Group Related Routes), request (Access HTTP Request Data), redirect (Redirect Users to Another Route), url_for( Dynamically buils URLs for Routes)
 from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash
 # Imports DB
@@ -195,13 +193,24 @@ def acknowledgement():
     return render_template('events/acknowledgement.html')
 
 
-# The better Route to purchase tickets for an event to use once events are dynamically created and have their own pages. 
-# This route will be linked to a "Purchase Tickets" button on each event's page. It will display a form to collect user information for ticket purchase and handle the form submission.
-#@eventbp.route('/<id>/purchase', methods=['GET', 'POST'])
-#def purchase_tickets(id):
-#    form = TicketPurchaseForm()
-#    if form.validate_on_submit():
-#        print('Ticket purchase successful!')
-#        print(f'Name: {form.nameofattendee.data}, Email: {form.email.data}, Phone: {form.phone.data}, Address: {form.address.data}, City: {form.city.data}')
-#       return redirect(url_for('events.show', id=id))  # Redirect to the show page for the event after purchase
-#    return render_template('events/ticket_purchase.html', form=form)
+# Route to delete all events currently in the database
+@eventbp.route('/delete_all', methods=['POST'])
+@login_required
+def delete_all_events():
+    if current_user.role != 'vendor':
+        flash('Only vendors can delete events.', 'danger')
+        return redirect(url_for('mainbp.index'))
+
+    events = Event.query.all()
+    for event in events:
+        db.session.delete(event)
+
+    try:
+        db.session.commit()
+        flash('All events have been deleted.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Something went wrong while deleting events.', 'danger')
+        print(e)
+
+    return redirect(url_for('mainbp.index'))

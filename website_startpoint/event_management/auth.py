@@ -1,4 +1,3 @@
-
 # Imports Flask Utilities: Blueprint (Group Related Routes), request (Access HTTP Request Data), redirect (Redirect Users to Another Route), url_for( Dynamically buils URLs for Routes)
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 # Imports login_user

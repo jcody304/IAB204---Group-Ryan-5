@@ -49,18 +49,25 @@
 {% endif %}
 
 <div class="city-heading text-white">
-    <h1>
-        {% if selected_category %}
-            {{ selected_category.title() }} Events
-        {% else %}
-            Events
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h1>
+            {% if selected_category %}
+                {{ selected_category.title() }} Events
+            {% else %}
+                Events
+            {% endif %}
+        </h1>
+        {% if current_user.is_authenticated and current_user.role == 'vendor' %}
+            <form action="{{ url_for('events.delete_all_events') }}" method="post" onsubmit="return confirm('Delete all events shown on this page?');">
+                <button type="submit" class="btn btn-danger">Delete All Events</button>
+            </form>
         {% endif %}
-    </h1>
+    </div>
     
     <div class="row">
         {% for event in events %}
         <div class="col-md-2 mb-4">
-            <a class="card bg-dark text-white text-decoration-none"
+            <a class="card index-card bg-dark text-white text-decoration-none"
                href="{{ url_for('events.show', id=event.id) }}">
 
                 {% if event.images %}

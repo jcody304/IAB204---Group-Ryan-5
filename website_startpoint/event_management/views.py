@@ -1,6 +1,3 @@
-# This is the main blueprint py. Defines the main routes (URLs) for the web application using Flask Blueprint
-# The Blueprint allows routes to be organised into modular components instead of placing everything in a single file
-
 # Import Blueprint to group routes, and render_template to display HTML Pages. (pip install Flask)
 from flask import Blueprint, render_template 
 # Import login and logout Functios from Flask-Login to manage user sessions. (pip install Flask-Login)

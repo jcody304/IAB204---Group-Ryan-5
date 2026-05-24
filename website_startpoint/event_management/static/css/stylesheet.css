@@ -11,6 +11,7 @@ html, body {
 
 main {
     flex: 1;
+    padding: 20px 0;
 }
 
 .footer {
@@ -37,7 +38,6 @@ body {
     font-weight: 700;
     letter-spacing: 1px;
     color: #111111 !important;
-    transition: 0.3s ease;
 }
 
 .navbar-brand:hover {
@@ -48,13 +48,11 @@ body {
     color: rgba(0,0,0,0.85) !important;
     font-weight: 500;
     margin-left: 10px;
-    transition: all 0.25s ease;
     position: relative;
 }
 
 .nav-link:hover {
     color: #dc3545 !important;
-    transform: translateY(-1px);
 }
 
 .nav-link::after {
@@ -65,7 +63,6 @@ body {
     width: 0%;
     height: 2px;
     background: #dc3545;
-    transition: width 0.3s ease;
 }
 
 .nav-link:hover::after {
@@ -81,7 +78,6 @@ body {
 
 .dropdown-item {
     color: #111111;
-    transition: 0.2s ease;
 }
 
 .dropdown-item:hover {
@@ -96,10 +92,15 @@ body {
 /* Card styles */
 .card {
     height: 240px;
+}
+
+/* Landing page cards with hover animation */
+.index-card {
+    height: 240px;
     transition: transform 0.3s ease;
 }
 
-.card:hover {
+.index-card:hover {
     transform: scale(1.05);
 }
 
@@ -177,4 +178,14 @@ body {
 
 .acknowledgement-card a:hover {
     color: #7bbcff;
+}
+
+/* Content container spacing */
+.city-heading {
+    padding: 20px;
+}
+
+/* Improve form containers */
+.container {
+    padding-bottom: 30px;
 }
