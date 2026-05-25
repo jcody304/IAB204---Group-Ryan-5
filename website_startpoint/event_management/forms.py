@@ -22,7 +22,7 @@ class EventForm(FlaskForm):
         validators=[InputRequired()])
     postcode = IntegerField('Zip', validators=[InputRequired(), NumberRange(min=1000, max=9999, message="Postcode must be a 4 digit number")])
     category = SelectField('Category',
-        choices=[(' ',' Select Category'),('Music', 'Music'),('Sports', 'Sports'),('Theatre', 'Theatre'),('Comedy', 'Comedy')],
+        choices=[(' ',' Select Category'),('music', 'Music'),('sports', 'Sports'),('theatre', 'Theatre'),('comedy', 'Comedy')],
         validators=[InputRequired()])
     description = StringField('Description', validators=[InputRequired()])
     image = FileField('Cover Image', 
