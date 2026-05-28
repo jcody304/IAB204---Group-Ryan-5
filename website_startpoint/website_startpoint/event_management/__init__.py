@@ -25,6 +25,8 @@ def create_app():
     login_manager = LoginManager() # Create LoginManager instance
     login_manager.init_app(app) # Connect LoginManager to the Flask app
     login_manager.login_view = 'auth.login'
+    login_manager.login_message = 'Please log in to access this page'
+    login_manager.login_message_category = 'info'
 
     # Configured DB Manager
     os.makedirs(app.instance_path, exist_ok=True)
@@ -36,8 +38,8 @@ def create_app():
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
     # Unhash the below lines one time to create DB if needed, then rehash them
-    #with app.app_context():
-        #db.create_all()
+    with app.app_context():
+        db.create_all()
 
     # User loader function requred by Flask-Login. Tells Flask-Login how to reload a user from a stored session ID
     @login_manager.user_loader

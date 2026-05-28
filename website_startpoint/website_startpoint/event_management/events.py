@@ -7,7 +7,7 @@ from .models import Event, Comment, EventImage, Location, Booking
 # Import datetime for timestamp creating on comments
 from datetime import datetime
 # Import form classes
-from .forms import EventForm, CommentForm, TicketPurchaseForm
+from .forms import EventForm, CommentForm, TicketPurchaseForm, EventEditForm
 # Import os for interacting with native operating system and handle file paths
 import os
 # Imports secure_filename to safely upload file names
@@ -72,24 +72,19 @@ def create():
             db.session.add(event)
             db.session.flush() # Gives event an id before commit
 
-            files = request.files.getlist('image')
+            file = request.files.get('image')
             
-            if len(files) > 5:
-                flash('You can only upload up to 5 images.', 'danger')
-                return render_template('events/create.html', form=form)
-            
-            for file in files:
-                if file and file.filename:
-                    original_filename = secure_filename(file.filename) # Makes filenames secure
-                    unique_filename = f"{uuid4().hex}_{original_filename}" # Creates a unique filename so uploads do not overwrite each other
-                    filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], unique_filename) # Builds file path using configured upload folder
-                    file.save(filepath)
+            if file and file.filename:
+                original_filename = secure_filename(file.filename) # Makes filenames secure
+                unique_filename = f"{uuid4().hex}_{original_filename}" # Creates a unique filename so uploads do not overwrite each other
+                filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], unique_filename) # Builds file path using configured upload folder
+                file.save(filepath)
 
-                    image = EventImage(filename='img/' + unique_filename, event_id=event.id)
-                    db.session.add(image)
+                image = EventImage(filename='img/' + unique_filename, event_id=event.id)
+                db.session.add(image)
 
             db.session.commit()
-            flash('Event created successfully.')
+            flash('Event created successfully.', 'success')
             return redirect(url_for('mainbp.index'))  # Redirect to the show page for the new destination
         except Exception as e:
             db.session.rollback()
@@ -120,27 +115,34 @@ def update(id):
         flash('You can only edit your own events.', 'danger')
         return redirect(url_for('events.show', id=id))
 
-    form = EventForm(obj=event)
+    # Use the EventEditForm for editing, which restricts what fields can be changed
+    form = EventEditForm()
 
-    # Pre-fill location manually
+    # Pre-fill form with current values
     if request.method == 'GET':
-        form.address.data = event.location.address
-        form.state_territory.data = event.location.state_territory
-        form.postcode.data = event.location.postcode
+        form.date.data = event.date
+        form.description.data = event.description
+        form.status.data = event.status
+        form.acknowledgement_type.data = event.acknowledgement_type
+        form.acknowledgement_traditional_custodians.data = event.acknowledgement_traditional_custodians
+        form.acknowledgement_statement.data = event.acknowledgement_statement
+        form.acknowledgement_researched.data = event.acknowledgement_researched
+        form.acknowledgement_not_welcome.data = event.acknowledgement_not_welcome
+        form.acknowledgement_respectful.data = event.acknowledgement_respectful
 
     if form.validate_on_submit():
-
-        event.name = form.name.data
-        event.organisation_name = form.organisation_name.data
+        # If in edit mode, only allow changes to specific fields
         event.date = form.date.data
-        event.category = form.category.data
         event.description = form.description.data
-        event.price = form.price.data
-        event.tickets_available = form.tickets_available.data
-
-        event.location.address = form.address.data
-        event.location.state_territory = form.state_territory.data
-        event.location.postcode = form.postcode.data
+        event.status = form.status.data
+        
+        # Update acknowledgement fields
+        event.acknowledgement_type = form.acknowledgement_type.data
+        event.acknowledgement_traditional_custodians = form.acknowledgement_traditional_custodians.data
+        event.acknowledgement_statement = form.acknowledgement_statement.data
+        event.acknowledgement_researched = form.acknowledgement_researched.data
+        event.acknowledgement_not_welcome = form.acknowledgement_not_welcome.data
+        event.acknowledgement_respectful = form.acknowledgement_respectful.data
 
         db.session.commit()
 
@@ -169,11 +171,12 @@ def purchase(id):
         
         booking = Booking(quantity=quantity, total_price=quantity * event.price, user_id=current_user.id, event_id=event.id)
 
+        db.session.add(booking)
         event.tickets_sold += quantity
 
         db.session.commit()
 
-        flash('Tickets purchased successfully!', 'success')
+        flash(f'Tickets purchased successfully! You purchased {quantity} ticket{"s" if quantity != 1 else ""}', 'success')
 
         return redirect(url_for('events.show', id=id))
 
@@ -191,26 +194,3 @@ def history():
 @eventbp.route('/acknowledgement')
 def acknowledgement():
     return render_template('events/acknowledgement.html')
-
-
-# Route to delete all events currently in the database
-@eventbp.route('/delete_all', methods=['POST'])
-@login_required
-def delete_all_events():
-    if current_user.role != 'vendor':
-        flash('Only vendors can delete events.', 'danger')
-        return redirect(url_for('mainbp.index'))
-
-    events = Event.query.all()
-    for event in events:
-        db.session.delete(event)
-
-    try:
-        db.session.commit()
-        flash('All events have been deleted.', 'success')
-    except Exception as e:
-        db.session.rollback()
-        flash('Something went wrong while deleting events.', 'danger')
-        print(e)
-
-    return redirect(url_for('mainbp.index'))
