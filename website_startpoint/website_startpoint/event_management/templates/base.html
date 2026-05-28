@@ -24,7 +24,7 @@
 <body>
     <div class="page-wrapper">
         <nav class="navbar navbar-expand-lg sticky-top">
-            <a class="navbar-brand ms-3" href="/">Eventaman</a>
+            <a class="navbar-brand ms-3" href="/">EVENTAMAN</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
                     </li>
                     {% if current_user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('auth.account') }}">My Account</a>
+                            <a class="nav-link" href="{{ url_for('auth.account') }}">Account</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -100,8 +100,8 @@
 
 
         <footer class="footer">
-            <div class="text-center py-2 bg-light">
-                <span class="text-dark">Established &copy; 2026</span>
+            <div class="text-center py-2 bg-dark" style="background-color: #1a1a5c !important; border-top: 2px solid #00b4d8;">
+                <span class="text-light">Established &copy; 2026</span>
             </div>
         </footer>
         <!-- Bootstrap JS (includes Popper) -->

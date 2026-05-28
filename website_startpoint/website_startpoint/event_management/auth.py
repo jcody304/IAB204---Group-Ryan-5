@@ -74,6 +74,12 @@ def account():
 
     upcoming_bookings = []
     past_bookings = []
+    all_bookings = []
+
+    # Get all bookings for the current user
+    all_bookings = Booking.query.filter(
+        Booking.user_id == current_user.id
+    ).order_by(Booking.created_at.desc()).all()
 
     if current_user.role == 'vendor':
 
@@ -104,5 +110,6 @@ def account():
         current_events=current_events,
         past_events=past_events,
         upcoming_bookings=upcoming_bookings,
-        past_bookings=past_bookings
+        past_bookings=past_bookings,
+        all_bookings=all_bookings
     )
