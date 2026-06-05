@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block content %}
+
+<div class="container text-white mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text white ">
+                <div class="card-body p-4">
+                    <h1 class="mb-3">{{ event.name }}</h1>
+                    <div class="mb-4">
+                        <h4>Event Details</h4>
+                        <p><strong>Date: </strong>{{ event.date.strftime('%d %B %Y') }}</p>
+                        <p><strong>Price: </strong>${{ event.price }}</p>
+                        <p><strong>Tickets Remaining: </strong>{{ event.tickets_remaining }}</p>
+                        <h4 class="mb-3">Purchase Tickets</h4>
+                        {{ render_form(form) }}
+                        <a href="{{ url_for('events.show', id=event.id) }}"class="btn btn-outline-light mt-3">Back to Event</a>
+                    </div>                
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
